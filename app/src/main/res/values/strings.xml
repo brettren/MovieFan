@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Movie Fan</string>
+    <string name="title_activity_detail">Detail</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+
+    <!-- preference in setting activity-->
+    <string name="pref_search_label">Search</string>
+    <string name="pref_search_key" translatable="false">search</string>
+    <string name="pref_search_default" translatable="false"></string>
+
+    <string name="pref_discover_label">Discover</string>
+    <string name="pref_popular_label">Most Popular</string>
+    <string name="pref_revenue_label">Top Grossing</string>
+
+    <string name="pref_discover_key" translatable="false">discover</string>
+    <string name="pref_popular_value" translatable="false">popular</string>
+    <string name="pref_revenue_value" translatable="false">revenue</string>
+
+    <string name="action_refresh">Refresh</string>
+
+</resources>

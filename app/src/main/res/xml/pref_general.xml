@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<EditTextPreference-->
+        <!--android:title="@string/pref_search_label"-->
+        <!--android:key="@string/pref_search_key"-->
+        <!--android:defaultValue="@string/pref_search_default"-->
+        <!--android:inputType="text"-->
+        <!--android:singleLine="true" />-->
+
+    <ListPreference
+        android:title="@string/pref_discover_label"
+        android:key="@string/pref_discover_key"
+        android:defaultValue="@string/pref_popular_value"
+        android:entryValues="@array/pref_discover_values"
+        android:entries="@array/pref_discover_options" />
+
+</PreferenceScreen>
