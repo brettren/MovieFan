@@ -2,6 +2,8 @@ package com.brettren.moviefan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -38,7 +43,10 @@ public class MainActivityFragment extends Fragment {
 
     private MovieAdapter mMovieAdapter;
     private SearchView mSearchView;
+    private ListView mListView;
     private String mQuery = "";
+    private int page = 1;
+    private List<Movie> mMovies;
 
     public MainActivityFragment() {
     }
@@ -60,11 +68,11 @@ public class MainActivityFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText == null || newText.length() == 0) {
+                if (newText == null) {
                     return false;
                 }
                 mQuery = newText;
-                return false;
+                return true;
             }
 
             @Override
@@ -73,12 +81,15 @@ public class MainActivityFragment extends Fragment {
                     if (!mQuery.equals(query)) {
                         mQuery = query;
                     }
-                    updateMovie();
+                    page = 1;
+                    updateMovie(page);
+                    mListView.smoothScrollToPosition(0);
                     return true;
                 }
                 return false;
             }
         });
+
     }
 
     @Override
@@ -88,7 +99,8 @@ public class MainActivityFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            updateMovie();
+            page = 1;
+            updateMovie(page);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -110,10 +122,32 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_movie);
-        listView.setAdapter(mMovieAdapter);
+        mListView = (ListView) rootView.findViewById(R.id.listview_movie);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        TextView textView = new TextView(getActivity());
+        String s = "More Movies>>";
+        textView.setText(s);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(20);
+        textView.setTypeface(Typeface.DEFAULT_BOLD);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setPadding(0, 40, 0, 40);
+        textView.setBackgroundResource(R.color.colorPrimary);
+
+        textView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View l) {
+                // need one more page of result
+                page++;
+                new FetchMovieTask().execute(mQuery, page+"");
+            }
+        });
+
+        mListView.addFooterView(textView);
+        mListView.setAdapter(mMovieAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -127,31 +161,34 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
-    private void updateMovie() {
+    private void updateMovie(int page) {
         FetchMovieTask movieTask = new FetchMovieTask();
-        movieTask.execute(mQuery);
+        mMovies = new ArrayList<>();
+        movieTask.execute(mQuery, page+"");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        updateMovie();
+        // only fetch page when no movies in adapter
+        if(mMovies == null || mQuery.length() == 0){
+            updateMovie(page);
+        }
     }
 
-    public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
+    public class FetchMovieTask extends AsyncTask<String, Void, List<Movie> > {
 
         private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
         @Override
-        protected Movie[] doInBackground(String... params) {
+        protected List<Movie> doInBackground(String... params) {
 
             if(params.length == 0) {
                 return null;
             }
 
-            Log.e(LOG_TAG, params[0]);
-
-            // If there's no zip code, there's nothing to look up.  Verify size of params.
+            final String PAGE_PARAM = "page";
+            final String page = params[1];
             final String API_KEY_PARAM = "api_key";
             final String api_key = "xxx";
 
@@ -179,9 +216,10 @@ public class MainActivityFragment extends Fragment {
                 final String DISCOVER_BASE_URL =
                         "http://api.themoviedb.org/3/discover/movie?";
 
-                // http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=xxx
+                // http://api.themoviedb.org/3/discover/movie?page=1&sort_by=popularity.desc&api_key=xxx
 
                 builtUri = Uri.parse(DISCOVER_BASE_URL).buildUpon()
+                        .appendQueryParameter(PAGE_PARAM, page)
                         .appendQueryParameter(SORT_BY_PARAM, order)
                         .appendQueryParameter(API_KEY_PARAM, api_key)
                         .build();
@@ -194,9 +232,10 @@ public class MainActivityFragment extends Fragment {
 
                 final String title = params[0];
 
-                // http://api.themoviedb.org/3/search/movie?query=title&api_key=xxx
+                // http://api.themoviedb.org/3/search/movie?page=1&query=title&api_key=xxx
 
                 builtUri = Uri.parse(SEARCH_BASE_URL).buildUpon()
+                        .appendQueryParameter(PAGE_PARAM, page)
                         .appendQueryParameter(QUERY_PARAM, title)
                         .appendQueryParameter(API_KEY_PARAM, api_key)
                         .build();
@@ -288,7 +327,7 @@ public class MainActivityFragment extends Fragment {
          * Fortunately parsing is easy:  constructor takes the JSON string and converts it
          * into an Object hierarchy for us.
          */
-        private Movie[] getMovieDataFromJson(String movieJsonStr)
+        private List<Movie> getMovieDataFromJson(String movieJsonStr)
                 throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
@@ -305,8 +344,6 @@ public class MainActivityFragment extends Fragment {
 
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(RESULT);
-
-            Movie[] movies = new Movie[movieArray.length()];
 
 
             for(int i = 0; i < movieArray.length(); i++) {
@@ -332,14 +369,14 @@ public class MainActivityFragment extends Fragment {
                 vote_average = movieObject.getString(VOTE_AVERAGE);
                 vote_count = movieObject.getString(VOTE_COUNT);
 
-                movies[i] = new Movie(id, title, release_date, backdrop_path, poster_path);
+                mMovies.add(new Movie(id, title, release_date, backdrop_path, poster_path));
             }
-            return movies;
+            return mMovies;
 
         }
 
         @Override
-        protected void onPostExecute(Movie[] result) {
+        protected void onPostExecute(List<Movie> result) {
             if (result != null) {
                 mMovieAdapter.clear();
                 for(Movie movie : result) {
