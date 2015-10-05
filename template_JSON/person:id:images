@@ -1,0 +1,52 @@
+https://api.themoviedb.org/3/person/2524/images?api_key=e01ab07a5cb3a47c8ec23e658be7ec07
+
+{  
+   "id":2524,
+   "profiles":[  
+      {  
+         "aspect_ratio":0.666666666666667,
+         "file_path":"/5KwHVwrr982YSsCf4HaSFMLrsYf.jpg",
+         "height":3000,
+         "iso_639_1":null,
+         "vote_average":5.33594259621657,
+         "vote_count":10,
+         "width":2000
+      },
+      {  
+         "aspect_ratio":0.666666666666667,
+         "file_path":"/yE7ziq4b4cG6bICWXU46dNl2qYb.jpg",
+         "height":1200,
+         "iso_639_1":null,
+         "vote_average":5.21797451374916,
+         "vote_count":8,
+         "width":800
+      },
+      {  
+         "aspect_ratio":0.666666666666667,
+         "file_path":"/5HZSvW12xIWqdxasIL92pIiTSkY.jpg",
+         "height":1500,
+         "iso_639_1":null,
+         "vote_average":5.06802721088435,
+         "vote_count":7,
+         "width":1000
+      },
+      {  
+         "aspect_ratio":0.666666666666667,
+         "file_path":"/s7AZP9xjrw8aHPv97H8XcnFHekk.jpg",
+         "height":2250,
+         "iso_639_1":null,
+         "vote_average":5.04329004329004,
+         "vote_count":3,
+         "width":1500
+      },
+      {  
+         "aspect_ratio":0.666666666666667,
+         "file_path":"/c3mxqJqwpxAvyXXYXRKg6nsFAbB.jpg",
+         "height":2250,
+         "iso_639_1":null,
+         "vote_average":5.04329004329004,
+         "vote_count":3,
+         "width":1500
+      }
+   ]
+}

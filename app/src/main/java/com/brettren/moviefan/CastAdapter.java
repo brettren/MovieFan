@@ -13,45 +13,48 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-
-public class VideoAdapter extends ArrayAdapter<Video> {
+public class CastAdapter extends ArrayAdapter<Person> {
     Context context;
     int layoutResourceId;
-    List<Video> videos = null;
+    List<Person> people = null;
 
-    public VideoAdapter(Context context, int layoutResourceId, List<Video> videos) {
-        super(context, layoutResourceId, videos);
+    public CastAdapter(Context context, int layoutResourceId, List<Person> people) {
+        super(context, layoutResourceId, people);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.videos = videos;
+        this.people = people;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        VideoHolder holder = null;
+        CastHolder holder = null;
 
         if(view == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             view = inflater.inflate(layoutResourceId, parent, false);
 
-            holder = new VideoHolder();
+            holder = new CastHolder();
             holder.txtName = (TextView)view.findViewById(R.id.txtName);
-            holder.imgScreenshot = (ImageView)view.findViewById(R.id.imageScreenshot);
+            holder.txtCharacter = (TextView)view.findViewById(R.id.txtCharacter);
+            holder.imgProfile = (ImageView)view.findViewById(R.id.imageProfile);
+
             view.setTag(holder);
         }
         else {
-            holder = (VideoHolder)view.getTag();
+            holder = (CastHolder)view.getTag();
         }
 
-        Video video = videos.get(position);
-        holder.txtName.setText(video.name);
-        Picasso.with(context).load(video.screenshot_path).into(holder.imgScreenshot);
+        Person person = people.get(position);
+        holder.txtCharacter.setText(person.name);
+        holder.txtName.setText(person.name);
+        Picasso.with(context).load(person.profile_path).into(holder.imgProfile);
         return view;
     }
 
-    public static class VideoHolder {
+    public static class CastHolder {
+        ImageView imgProfile;
+        TextView txtCharacter;
         TextView txtName;
-        ImageView imgScreenshot;
     }
 }
