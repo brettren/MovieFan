@@ -21,6 +21,13 @@ public class Movie {
     public Movie(){
     }
 
+    public Movie(String id, String title, String release_date, String poster_path){
+        this.id = id;
+        this.title = title;
+        this.release_date = release_date;
+        this.poster_path = poster_path;
+    }
+
     public Movie(String id, String title, String release_date, String backdrop_path, String poster_path) {
         this.id = id;
         this.title = title;

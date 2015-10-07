@@ -35,6 +35,7 @@
 
         <activity
             android:name="com.brettren.moviefan.ProfileActivity"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_actor"
             android:parentActivityName="com.brettren.moviefan.InfoActivity" >
             <meta-data

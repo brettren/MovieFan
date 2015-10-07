@@ -20,6 +20,8 @@ public class Utility {
 
     final static String BASE_URL =
             "https://api.themoviedb.org/3/movie/";
+    final static String PERSON_BASE_URL =
+            "http://api.themoviedb.org/3/person/";
 
     public static String getJson(Uri builtUri){
 

@@ -62,13 +62,47 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtRelated"
+            android:text="@string/profile_filmography"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <org.lucasr.twowayview.TwoWayView
+            android:id="@+id/listview_production"
+            style="@style/TwoWayView"
+            android:layout_width="wrap_content"
+            android:layout_height="220dp"
+            android:drawSelectorOnTop="false"
+            android:background="@color/colorPrimaryLight"/>
+
+        <TextView
+            android:id="@+id/Biography"
+            android:text="@string/profile_biography"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
             android:id="@+id/txtBiography"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="30dp"/>

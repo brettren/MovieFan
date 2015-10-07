@@ -46,7 +46,7 @@ public class CastAdapter extends ArrayAdapter<Person> {
         }
 
         Person person = people.get(position);
-        holder.txtCharacter.setText(person.name);
+        holder.txtCharacter.setText(person.character);
         holder.txtName.setText(person.name);
         Picasso.with(context).load(person.profile_path).into(holder.imgProfile);
         return view;

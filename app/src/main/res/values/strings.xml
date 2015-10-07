@@ -20,5 +20,6 @@
     <string name="pref_revenue_value" translatable="false">revenue</string>
 
     <string name="action_refresh">Refresh</string>
-
+    <string name="profile_filmography">FILMOGRAPHY</string>
+    p<string name="profile_biography">BIOGRAPHY</string>
 </resources>
