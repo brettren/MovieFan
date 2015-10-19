@@ -41,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-
+        if (id == R.id.action_want) {
+            startActivity(new Intent(this, WantActivity.class));
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

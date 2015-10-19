@@ -31,6 +31,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         View view = convertView;
         MovieHolder holder = null;
 
+        // check if a View is recycled
         if(view == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             view = inflater.inflate(layoutResourceId, parent, false);
@@ -41,7 +42,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             holder.imgPoster = (ImageView)view.findViewById(R.id.imagePoster);
             holder.imgBackDrop = (ImageView)view.findViewById(R.id.imageBackDrop);
 
-            view.setTag(holder);
+            view.setTag(holder); //save the inflated View for future reuse
         }
         else {
             holder = (MovieHolder)view.getTag();
@@ -55,6 +56,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         return view;
     }
 
+    // cache the call to findViewById()
     public static class MovieHolder {
         ImageView imgPoster;
         ImageView imgBackDrop;

@@ -34,6 +34,16 @@
         </activity>
 
         <activity
+            android:name="com.brettren.moviefan.WantActivity"
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_want"
+            android:parentActivityName="com.brettren.moviefan.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.brettren.moviefan.MainActivity" />
+        </activity>
+
+        <activity
             android:name="com.brettren.moviefan.ProfileActivity"
             android:launchMode="singleTop"
             android:label="@string/title_activity_actor"
@@ -50,6 +60,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.brettren.moviefan.MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="com.brettren.moviefan"
+            android:name="com.brettren.moviefan.data.MovieProvider" />
 
     </application>
 

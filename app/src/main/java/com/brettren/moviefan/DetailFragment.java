@@ -1,6 +1,8 @@
 package com.brettren.moviefan;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,20 +11,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.brettren.moviefan.data.MovieContract;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class DetailFragment extends Fragment{
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
     private String movieId;
+    private Movie mMovie;
 
     ImageView imgPoster;
     ImageView imgBackDrop;
@@ -33,6 +38,8 @@ public class DetailFragment extends Fragment{
     TextView txtRevenue;
     TextView txtOverview;
     TextView txtTagline;
+    Button btnWantToSee;
+    Button btnDelete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +62,75 @@ public class DetailFragment extends Fragment{
         txtRevenue = (TextView)view.findViewById(R.id.txtRevenue);
         txtOverview = (TextView)view.findViewById(R.id.txtOverview);
         txtTagline = (TextView)view.findViewById(R.id.txtTagline);
+        btnWantToSee = (Button)view.findViewById(R.id.btnWantToSee);
+        btnDelete = (Button)view.findViewById(R.id.btnDelete);
+
+        btnWantToSee.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Cursor movieCursor = getActivity().getContentResolver().query(
+                        MovieContract.MovieEntry.CONTENT_URI,
+                        new String[]{MovieContract.MovieEntry._ID},
+                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
+                        new String[]{movieId},
+                        null);
+
+                // if the movie already exists in database, nothing to do
+                if (movieCursor != null && movieCursor.moveToFirst()) {
+                    Toast.makeText(getActivity(), mMovie.title + " already exists in list", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else{
+                    ContentValues movieValue = new ContentValues();
+
+                    movieValue.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, mMovie.id);
+                    movieValue.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, mMovie.title);
+                    movieValue.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, mMovie.release_date);
+                    movieValue.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, mMovie.poster_path);
+                    movieValue.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, mMovie.backdrop_path);
+
+                    // Finally, insert movie data into the database.
+                    getActivity().getContentResolver().insert(
+                            MovieContract.MovieEntry.CONTENT_URI,
+                            movieValue
+                    );
+                }
+
+                Toast.makeText(getActivity(), mMovie.title + " has been added to list", Toast.LENGTH_SHORT).show();
+
+                movieCursor.close();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Cursor movieCursor = getActivity().getContentResolver().query(
+                        MovieContract.MovieEntry.CONTENT_URI,
+                        new String[]{MovieContract.MovieEntry._ID},
+                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
+                        new String[]{movieId},
+                        null);
+
+                // if the movie not exists in database, nothing to do
+                if (movieCursor == null || !movieCursor.moveToFirst()) {
+                    Toast.makeText(getActivity(), mMovie.title + " not exists in list", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else{
+                    // Finally, delete movie data from the database.
+                    getActivity().getContentResolver().delete(
+                            MovieContract.MovieEntry.CONTENT_URI,
+                            MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?",
+                            new String[]{movieId}
+                    );
+                }
+
+                Toast.makeText(getActivity(), mMovie.title + " has been deleted from list", Toast.LENGTH_SHORT).show();
+
+                movieCursor.close();
+            }
+        });
 
         return view;
     }
@@ -152,6 +228,8 @@ public class DetailFragment extends Fragment{
 
             Movie movie = new Movie(id, title, release_date, backdrop_path, poster_path, vote_average,
                     vote_count, overview, tagline, runtime, revenue);
+
+            mMovie = movie;
 
             return movie;
 

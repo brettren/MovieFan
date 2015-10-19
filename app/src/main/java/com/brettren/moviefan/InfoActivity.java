@@ -1,5 +1,6 @@
 package com.brettren.moviefan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -36,6 +37,9 @@ public class InfoActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.action_want:
+                startActivity(new Intent(this, WantActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

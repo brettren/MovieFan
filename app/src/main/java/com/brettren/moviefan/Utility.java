@@ -10,9 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by Brett on 15/10/3.
- */
+
 public class Utility {
 
     final static String API_KEY_PARAM = "api_key";
@@ -88,7 +86,7 @@ public class Utility {
             }
         }
 
-        // This will only happen if there was an error getting or parsing the forecast.
+        // This will only happen if there was an error getting or parsing the json.
         return JsonStr;
     }
 }

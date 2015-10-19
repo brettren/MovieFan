@@ -17,7 +17,7 @@
             <ImageView
                 android:id="@+id/imageBackDrop"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="380dp"
                 android:scaleType="centerCrop" />
 
             <ImageView
@@ -40,7 +40,7 @@
                 android:shadowRadius="2"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="0dp" />
 
             <TextView android:id="@+id/txtReleaseDate"
                 android:layout_width="wrap_content"
@@ -108,6 +108,38 @@
                 android:layout_marginRight="30dp"
                 android:layout_toRightOf="@+id/imagePoster"/>
 
+            <Button android:id="@+id/btnWantToSee"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:text="@string/wanttosee"
+                android:textSize="10sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_add_selector"
+                android:layout_below = "@id/txtRevenue"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_toRightOf="@+id/imagePoster"/>
+
+            <Button android:id="@+id/btnDelete"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:text="@string/deletefromlist"
+                android:textSize="10sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_add_selector"
+                android:layout_below = "@id/btnWantToSee"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_toRightOf="@+id/imagePoster"/>
+
             <TextView android:id="@+id/txtTagline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -120,7 +152,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="2"
                 android:layout_below = "@id/imagePoster"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:textAlignment="center" />
@@ -137,6 +169,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />
+
 
     </LinearLayout>
 </ScrollView>
