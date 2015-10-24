@@ -4,7 +4,7 @@
     <string name="title_activity_info">Info</string>
     <string name="title_activity_actor">Profile</string>
     <string name="title_activity_want">Want To See</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">SETTING</string>
     <string name="action_want">Want</string>
     <string name="action_search">Search</string>
 
@@ -16,6 +16,11 @@
     <string name="pref_discover_label">Discover</string>
     <string name="pref_popular_label">Most Popular</string>
     <string name="pref_revenue_label">Top Grossing</string>
+
+    <string name="pref_about">ABOUT</string>
+    <string name="pref_data_source">Data Source</string>
+    <string name="pref_attribute">This product uses the TMDb API but is not endorsed or certified by TMDb</string>
+    <string name="app_name_version">Movie Fan  1.0.7</string>
 
     <string name="pref_discover_key" translatable="false">discover</string>
     <string name="pref_popular_value" translatable="false">popular</string>
